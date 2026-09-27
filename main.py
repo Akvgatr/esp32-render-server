@@ -25,7 +25,7 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             message = await websocket.receive_text()
-            print("ESP32:", message)
+            print(f"ESP32: {message}")
 
-    except Exception:
-        print("ESP32 disconnected")
+    except Exception as e:
+        print(f"ESP32 disconnected: {e}")
