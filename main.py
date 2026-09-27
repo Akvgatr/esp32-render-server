@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, UploadFile, File
 
 app = FastAPI()
 
@@ -25,7 +25,24 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             message = await websocket.receive_text()
-            print(f"ESP32: {message}")
+            print("ESP32:", message)
 
-    except Exception as e:
-        print(f"ESP32 disconnected: {e}")
+    except Exception:
+        print("ESP32 disconnected")
+
+
+@app.post("/upload")
+async def upload_image(file: UploadFile = File(...)):
+
+    image_data = await file.read()
+
+    print("Received image!")
+    print("Filename:", file.filename)
+    print("Size:", len(image_data), "bytes")
+    print("Content type:", file.content_type)
+
+    return {
+        "status": "success",
+        "message": "Image received",
+        "size": len(image_data)
+    }
