@@ -1,2 +1,2 @@
-main.py
-requirements.txt
+fastapi
+uvicorn[standard]
